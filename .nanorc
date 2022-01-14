@@ -1,0 +1,13 @@
+set autoindent
+# set nonewlines
+# set tabsize 2
+# set tabstospaces
+set linenumbers
+
+# colors
+set titlecolor pink,black
+set statuscolor pink,black
+set keycolor pink,black
+set functioncolor pink,black
+set numbercolor pink,black
+set selectedcolor black,pink
