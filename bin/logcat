@@ -160,6 +160,7 @@ fi
 echo -e "\n"
 spinner "Uploading adb_logcat.txt" &
 pid=$!
+jobs_id+=("$pid")
 upload "$HOME/logs/adb_logcat.txt" &>/dev/null
 kill $pid
 clean
@@ -169,6 +170,7 @@ echo
 
 spinner "Uploading adb_logcat_all.txt" &
 pid=$!
+jobs_id+=("$pid")
 upload "$HOME/logs/adb_logcat_all.txt" "
 notez: $extra_note
 " &>/dev/null
