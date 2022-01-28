@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# shellcheck source=common.env
+source "$HOME/bin/common.env"
+
+if [ -n "$1" ]; then
+	msg=$1
+else
+	read -rp "Message: " msg
+fi
+
+$tgbot_home/bin/send_message.sh "$channel_id" "$msg"
+
+### Cleanup
+cleanpath="$(pwd)"
+clean_log "$cleanpath"

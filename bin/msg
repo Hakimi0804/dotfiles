@@ -1,0 +1,2 @@
+#!/bin/bash
+~/github-repo/mybot/telegram-bot-bash/bin/send_message.sh "-1001296316951" "$1"

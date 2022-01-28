@@ -1,0 +1,35 @@
+#!/bin/bash
+
+file=$1
+# shellcheck source=common.env
+source "$HOME/bin/common.env"
+
+if [ -z "$file" ]; then
+	echo "Usage: $0 <file>"
+	exit 1
+fi
+if [ -n "$2" ]; then
+	# channel_id=$2
+	extra_msg=$2
+fi
+
+
+if [ ! -f "$file" ]; then
+	echo "File $file does not exist"
+	exit 1
+fi
+
+echo "Uploading $file to channel $channel_id"
+cp "$file" "$tgupload_dir"
+file=$(basename "$file")
+"$tgbot_home/bin/send_file.sh" "$channel_id" "$tgupload_dir/$file" "$extra_msg" "document"
+rm "$tgupload_dir/$file"
+
+
+### Cleanup
+file_base=$(basename "$file")
+cleanpath="${file//$file_base}"
+if [ -z "$cleanpath" ]; then
+	cleanpath="."
+fi
+clean_log "$cleanpath"

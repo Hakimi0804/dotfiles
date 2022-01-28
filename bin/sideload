@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# shellcheck source=common.env
+source "$HOME/bin/common.env"
+file_name="$1"
+
+msg-ch "sideloading $file_name"
+adb sideload "$file_name"
+msg-ch "sideload finished"

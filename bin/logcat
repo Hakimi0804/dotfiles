@@ -1,0 +1,193 @@
+#!/bin/bash
+#
+# This script will take adb logcat for 5 seconds (can be changed)
+# and saves them to $HOME/logs/, at the same time updating the time
+# elapsed.
+#
+# By default two logcat will be taken, `adb logcat` and `adb logcat -b all`.
+# The first one will be saved as `adb_logcat.txt` and the second one as
+# `adb_logcat_all.txt`.
+#
+duration=5
+upload_to_testing_group_instead=false
+jobs_id=()
+
+if [[ "$*" =~ "--testing-group" ]]; then
+	upload_to_testing_group_instead=true
+	echo 'channel_id=-1001155763792' >> "$HOME/bin/common.env"
+fi
+
+# Colours
+red='\033[0;31m'
+green='\033[0;32m'
+yellow='\033[0;33m'
+reset='\033[0m'
+
+pr_yellow()
+{
+	echo -e "${yellow}$1${reset}"
+}
+
+pr_green()
+{
+	echo -e "${green}$1${reset}"
+}
+
+pr_red()
+{
+	echo -e "${red}$1${reset}"
+}
+
+spinner()
+{
+	local spin='- \ | /'
+	while true; do
+		for i in $(seq 0 7); do
+			# echo -ne "                        \r"
+			echo -ne "$1 ${spin:$i:1} \r"
+			sleep 0.03
+		done
+	done
+}
+
+# shellcheck disable=SC2120
+cleanup()
+{
+	if [[ "$1" == "sigint" ]]; then
+		pr_red "\rCaught SIGINT, cleaning up..."
+	fi
+	# Make sure spinners jobs are killed
+	for job in "${jobs_id[@]}"; do
+		kill "$job"
+	done
+	# Delete the appended $channel_id
+	sed -i '/channel_id=-1001155763792/d' "$HOME/bin/common.env"
+	exit 1
+}
+
+trap 'cleanup sigint' SIGINT
+
+if [ -n "$1" ]; then
+	duration=$1
+	if [ $duration -gt 100 ]; then
+		pr_yellow "Duration too long, setting to 100"
+		duration=100
+	fi
+	# Check if duration is not an integer
+	if [ $(echo $duration | grep -E "^[0-9]+$") ]; then
+		: # echo "Duration is an integer, continuing"
+	else
+		pr_red "Duration is not an integer, exiting"
+		exit 1
+	fi
+fi
+
+if [ -n "$2" ]; then
+	extra_note=$2
+fi
+
+# Prepare directory and purge old logs
+pr_green "Preparing"
+mkdir -p "$HOME/logs"
+rm -f "$HOME/logs/adb_logcat.txt"
+rm -f "$HOME/logs/adb_logcat_all.txt"
+adb wait-for-device
+echo
+
+# Take adb logcat for 5 seconds while updating the time elapsed
+adb logcat > "$HOME/logs/adb_logcat.txt" &
+PID=$!
+jobs_id+=("$PID")
+echo "Logcat PID: $PID"
+# for i in {1..5}; do
+#	 echo -ne "$i\r"
+#	 sleep 1
+# done
+for ((i=1; i<=duration; i++)); do
+	echo -ne "Time elapsed: $i\r"
+
+	if [ $i -eq $duration ]; then
+		echo -ne "                       \r"
+		echo -ne "Time elapsed: $i ${green}...done${reset}\r"
+	fi
+
+	sleep 1
+done
+kill $PID
+
+echo
+
+# Take adb logcat -b all for 5 seconds while updating the time elapsed
+clean() { echo -ne "                              \r"; }
+adb logcat -b all > "$HOME/logs/adb_logcat_all.txt" &
+PID=$!
+jobs_id+=("$PID")
+echo "Logcat -b all PID: $PID"
+# for i in {1..5}; do
+#	 echo -ne "$i\r"
+#	 sleep 1
+# done
+for ((i=1; i<=duration; i++)); do
+	echo -ne "Time elapsed: $i\r"
+
+	if [ $i -eq $duration ]; then
+		echo -ne "                       \r"
+		echo -ne "Time elapsed: $i ${green}...done${reset}\r"
+	fi
+
+	sleep 1
+done
+kill $PID
+
+
+####################
+# Upload to telegram
+# upload_tt_group()
+# {
+# 	if [[ "$2" == "finish" ]]; then
+# 		upload "$1" "Extra notez: $extra_note" &>/dev/null
+# 	else
+# 		upload "$1" &>/dev/null
+# 	fi
+# }
+
+if [[ "$upload_to_testing_group_instead" == true ]]; then
+	:
+elif [[ "$upload_to_testing_group_instead" == false ]]; then
+	msg-ch "--------------------------------------------" &>/dev/null
+fi
+
+echo -e "\n"
+spinner "Uploading adb_logcat.txt" &
+pid=$!
+upload "$HOME/logs/adb_logcat.txt" &>/dev/null
+kill $pid
+clean
+echo -ne "Uploading adb_logcat.txt ${green}...done${reset}\r"
+
+echo
+
+spinner "Uploading adb_logcat_all.txt" &
+pid=$!
+upload "$HOME/logs/adb_logcat_all.txt" "
+notez: $extra_note
+" &>/dev/null
+kill $pid
+clean
+echo -ne "Uploading adb_logcat_all.txt ${green}...done${reset}\r"
+echo
+
+if [[ "$upload_to_testing_group_instead" == true ]]; then
+	:
+elif [[ "$upload_to_testing_group_instead" == false ]]; then
+	msg-ch "--------------################--------------" &>/dev/null
+fi
+
+# if [[ "$upload_to_testing_group_instead" == "true" ]]; then
+# 	:
+# fi
+
+
+### Cleanup
+cleanup &>/dev/null
+exit 0

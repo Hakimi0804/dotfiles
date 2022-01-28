@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# shellcheck source=common.env
+source "$HOME/bin/common.env"
+file_link="$1"
+file_name="$(basename "$file_link")"
+
+msg-ch "Downloading $file_name"
+if [ -n "$2" ]; then
+	file_name="$2"
+	aria2c "$file_link" -o "$file_name"
+else
+	aria2c "$file_link"
+fi
+msg-ch "
+$file_name downloaded
+Path: $(pwd)/$file_name
+"

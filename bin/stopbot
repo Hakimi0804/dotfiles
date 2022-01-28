@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# shellcheck source=common.env
+source "$HOME/bin/common.env"
+
+"$tgbot_home/bashbot.sh" stop

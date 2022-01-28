@@ -1,0 +1,7 @@
+# put system properties that you want to override in this file,
+# they will be read by resetprop and will be overriden
+#
+# Format example:
+# ro.sys.foo=bar
+# ro.sys.foo.bar=baz
+#

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 <filename>"
+    exit 1    
+fi
+
+if [ -n "$2" ]; then
+  path="$2"
+else
+  path="/sdcard"
+fi
+
+filename=$1
+
+echo "Packing $filename..."
+zip -r "$filename" . &>/dev/null
+
+echo "Copying to device..."
+adb push "$filename" "$path" &>/dev/null
+
+echo "Cleanup..."
+rm -f "$filename" &>/dev/null

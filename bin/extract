@@ -1,0 +1,36 @@
+#!/bin/bash
+
+if [[ -f "$1" ]]; then
+    case "$1" in
+        *.tar.lrz)
+            lrztar -d "$1" ;;
+        *.lrz)
+            lrunzip "$1" ;;
+        *.tar.bz2 | *.tbz2)
+            tar xjf "$1" ;;
+        *.bz2)
+            bunzip2 "$1" ;;
+        *.tar.gz | *.tgz)
+            tar xzf "$1" ;;
+        *.gz)
+            gunzip "$1" ;;
+        *.tar.xz)
+            unxz -v --stdout "$1" | tar -x ;;
+        *.xz)
+            xz -d "$1" ;;
+        *.rar)
+            unrar e "$1" ;;
+        *.tar)
+            tar xvvf "$1" ;;
+        *.zip)
+            unzip "$1" ;;
+        *.Z)
+            uncompress "$1" ;;
+        *.7z)
+            7z x "$1" ;;
+        *.img)
+            b=$(basename "$1" .img)
+            7z x "$1" -o"$b" ;;
+        *) echo "don't know how to extract '$1'..."
+    esac
+fi

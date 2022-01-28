@@ -1,0 +1,5 @@
+# allow process through SELinux by allowing their context here
+#
+# Format example:
+# allow audioserver audioserver_tmpfs file { read write execute }
+#

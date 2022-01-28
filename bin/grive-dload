@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [ "$#" -lt 2 ]; then
+  echo 'Invalid amount of arguements.'
+  exit 1
+elif [ "$#" -gt 3 ]; then
+  echo 'Invalid amount of arguements.'
+  exit 1
+else
+  :
+fi
+
+case $3 in
+  -a | --alternate )
+    # placeholder
+    ;;
+
+  * )
+    echo "In case the download did not work, you might wanna use alternate method by passing -a, --alternate"
+    wget --load-cookies /tmp/cookies.txt \
+      "https://docs.google.com/uc?export=download&confirm=$(wget \
+       --quiet \
+       --save-cookies /tmp/cookies.txt \
+       --keep-session-cookies \
+       --no-check-certificate \
+       'https://docs.google.com/uc?export=download&id=FILEID' \
+       -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=FILEID" \
+       -O FILENAME && \
+       rm -rf /tmp/cookies.txt
+    ;;
+esac
