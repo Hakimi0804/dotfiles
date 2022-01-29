@@ -44,7 +44,6 @@ done
 pr_green "Starting to update extra files..."
 for file in "${extra_files[@]}"; do
 	pr_yellow " - Updating $file"
-	cp -r "$file" "$NEW_HOME/${file#"$HOME"/}" 2>/dev/null
 	if [ -d "$file" ]; then
 		cp -r "$file"/* "$NEW_HOME/${file#"$HOME"/}" 2>/dev/null
 	else
