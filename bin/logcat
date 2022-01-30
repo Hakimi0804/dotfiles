@@ -8,13 +8,15 @@
 # The first one will be saved as `adb_logcat.txt` and the second one as
 # `adb_logcat_all.txt`.
 #
+# shellcheck source=common.sh
+source "$HOME/bin/common.sh"
 duration=5
 upload_to_testing_group_instead=false
 jobs_id=()
 
 if [[ "$*" =~ "--testing-group" ]]; then
 	upload_to_testing_group_instead=true
-	echo 'channel_id=-1001155763792' >> "$HOME/bin/common.env"
+	echo "channel_id=$testing_group_id" >> "$HOME/bin/common.sh"
 fi
 
 # Colours
@@ -58,10 +60,10 @@ cleanup()
 	fi
 	# Make sure spinners jobs are killed
 	for job in "${jobs_id[@]}"; do
-		kill "$job"
+		kill "$job" &>/dev/null
 	done
 	# Delete the appended $channel_id
-	sed -i '/channel_id=-1001155763792/d' "$HOME/bin/common.env"
+	sed -i "/channel_id=$testing_group_id/d" "$HOME/bin/common.sh"
 	exit 1
 }
 
@@ -167,6 +169,10 @@ clean
 echo -ne "Uploading adb_logcat.txt ${green}...done${reset}\r"
 
 echo
+
+if [[ "$upload_to_testing_group_instead" == true ]]; then
+	echo "channel_id=$testing_group_id" >> "$HOME/bin/common.sh"
+fi
 
 spinner "Uploading adb_logcat_all.txt" &
 pid=$!

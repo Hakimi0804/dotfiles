@@ -1,8 +1,9 @@
 #!/bin/bash
 
 file=$1
-# shellcheck source=common.env
-source "$HOME/bin/common.env"
+# shellcheck source=common.sh
+source "$HOME/bin/common.sh"
+trap clean_id SIGINT
 
 if [ -z "$file" ]; then
 	echo "Usage: $0 <file>"
@@ -12,7 +13,12 @@ if [ -n "$2" ]; then
 	# channel_id=$2
 	extra_msg=$2
 fi
-
+if [[ "$*" =~ "--testing-group" ]]; then
+	echo "channel_id=$testing_group_id" >> "$HOME/bin/common.sh"
+	# shellcheck source=common.sh
+	source "$HOME/bin/common.sh"
+	extra_msg="$extra_msg\n\n--testing-group was passed, file uploaded to testing group"
+fi
 
 if [ ! -f "$file" ]; then
 	echo "File $file does not exist"
@@ -33,3 +39,4 @@ if [ -z "$cleanpath" ]; then
 	cleanpath="."
 fi
 clean_log "$cleanpath"
+clean_id

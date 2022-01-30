@@ -23,6 +23,7 @@ alias l.="exa -a | egrep '^\.'"                                      # show only
 
 # Nuke reboot
 alias reboot='echo "never"'
+thefuck --alias | source
 
 # Misc aliases
 alias wget='aria2c'
@@ -32,3 +33,5 @@ alias gpl='git pull'
 
 # Replace cat with bat
 alias cat='bat --style=changes,header,rule,numbers,snip'
+
+thefuck --alias | source
