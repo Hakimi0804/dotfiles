@@ -1,0 +1,3 @@
+[submodule "github-repo/mybot/telegram-bot-bash"]
+	path = github-repo/mybot/telegram-bot-bash
+	url = https://github.com/Hakimi0804/telegram-bot-bash
