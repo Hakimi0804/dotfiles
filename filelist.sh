@@ -3,9 +3,7 @@
 #   -------------------
 
 
-extra_files=(
-	"$HOME/github-repo/mybot/telegram-bot-bash"
-)
+extra_files=()
 
 default=(
 	"$HOME/bin"
