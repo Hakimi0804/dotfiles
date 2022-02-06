@@ -17,7 +17,7 @@ if [[ "$*" =~ "--testing-group" ]]; then
 	echo "channel_id=$testing_group_id" >> "$HOME/bin/common.sh"
 	# shellcheck source=common.sh
 	source "$HOME/bin/common.sh"
-	extra_msg="$extra_msg\n\n--testing-group was passed, file uploaded to testing group"
+#	extra_msg="$extra_msg\n\n--testing-group was passed, file uploaded to testing group"
 fi
 
 if [ ! -f "$file" ]; then
