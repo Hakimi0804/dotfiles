@@ -1,0 +1,50 @@
+#!/bin/bash
+FILE=$1
+FILE_BASE=$(basename "$FILE")
+
+
+if [ -z "$FILE" ]; then
+    echo "brah, what am i supposed to do without a file?"
+    exit 1
+elif [ ! -f "$FILE" ]; then
+    echo "brah, that file doesn't exist"
+    exit 1
+fi
+
+if [[ "$*" =~ "--format" ]]; then
+    FORMAT_DATA=true
+fi
+if [[ "$*" =~ "--ext4" ]]; then
+    FORMAT_AS=ext4
+else
+    FORMAT_AS=f2fs
+fi
+
+if [ "$(adb get-state)" = "device" ]; then
+    adb reboot recovery
+    REBOOT_AFTER_DONE=true
+elif [ "$(adb get-state)" = "recovery" ]; then
+    :
+else
+    echo "Device is in an unknown state/not connected, cannot proceed."
+    exit 1
+fi
+
+
+adb wait-for-recovery push "$FILE" /sideload
+adb wait-for-recovery shell "twrp install /sideload/$FILE_BASE"
+adb wait-for-recovery shell "rm -f /sideload/$FILE_BASE"
+
+if [[ $FORMAT_DATA == true ]]; then
+    adb wait-for-recovery shell "umount /sdcard; umount /sdcard; umount /data"
+
+    if [[ $FORMAT_AS == f2fs ]]; then
+        adb wait-for-recovery shell "make_f2fs -g android -w 512 /dev/block/by-name/userdata"
+    elif [[ $FORMAT_AS == ext4 ]]; then
+        adb wait-for-recovery shell "mkfs.ext4 /dev/block/by-name/userdata"
+    fi
+fi
+
+if [[ $REBOOT_AFTER_DONE == true ]]; then
+    adb wait-for-recovery reboot
+fi

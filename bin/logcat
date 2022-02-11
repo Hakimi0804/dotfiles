@@ -57,6 +57,7 @@ cleanup()
 {
 	if [[ "$1" == "sigint" ]]; then
 		pr_red "\rCaught SIGINT, cleaning up..."
+		exit_with_error=true
 	fi
 	# Make sure spinners jobs are killed
 	for job in "${jobs_id[@]}"; do
@@ -64,7 +65,10 @@ cleanup()
 	done
 	# Delete the appended $channel_id
 	sed -i "/channel_id=$testing_group_id/d" "$HOME/bin/common.sh"
-	exit 1
+	if [[ $exit_with_error == true ]]; then
+		pr_red "Exiting..."
+		exit 1
+	fi
 }
 
 trap 'cleanup sigint' SIGINT
