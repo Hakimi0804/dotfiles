@@ -1,2 +1,6 @@
 #!/bin/bash
-~/github-repo/mybot/telegram-bot-bash/bin/send_message.sh "-1001296316951" "$1"
+if [[ "$*" =~ "--testing-group"|"-t" ]]; then
+    ~/github-repo/mybot/telegram-bot-bash/bin/send_message.sh "-1001299514785" "$1"
+else
+    ~/github-repo/mybot/telegram-bot-bash/bin/send_message.sh "-1001296316951" "$1"
+fi
