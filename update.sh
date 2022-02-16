@@ -41,6 +41,8 @@ for file in "${default[@]}"; do
 	fi
 done
 
+echo
+
 pr_green "Starting to update extra files..."
 for file in "${extra_files[@]}"; do
 	pr_yellow " - Updating $file"

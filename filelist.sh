@@ -3,7 +3,9 @@
 #   -------------------
 
 
-extra_files=()
+extra_files=(
+    "$HOME/.aliasrc"
+)
 
 default=(
 	"$HOME/bin"

@@ -5,6 +5,7 @@ channel_id=-1001664444944
 testing_group_id=-1001299514785 # real testing group
 # testing_group_id=-1001155763792 # experimental testing group
 tgbot_home=$HOME/github-repo/mybot/telegram-bot-bash
+tgbot_bin=$tgbot_home/bin
 tgupload_dir=$tgbot_home/data-bot-bash
 
 clean_log()

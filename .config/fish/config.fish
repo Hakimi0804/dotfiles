@@ -30,6 +30,11 @@ alias wget='aria2c'
 alias gp='git push'
 alias gcl='git clone'
 alias gpl='git pull'
+alias tb='nc termbin.com 9999; :'
+alias reload='source ~/.config/fish/config.fish'
+
+# Source common aliases
+source ~/.aliasrc
 
 # Replace cat with bat
 alias cat='bat --style=changes,header,rule,numbers,snip'
