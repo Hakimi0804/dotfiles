@@ -31,18 +31,19 @@ else
 fi
 
 
-tmpfile=$HOME/tmp-sideloadpush-$RANDOM.log
-adb wait-for-recovery push "$FILE" /sideload 1>"$tmpfile" 2>&1
+#tmpfile=$HOME/tmp-sideloadpush-$RANDOM.log
+#adb wait-for-recovery push "$FILE" /sideload 1>"$tmpfile" 2>&1
+adb wait-for-recovery push "$FILE" /sideload
 # Show bar progress of pushing based on percentage given by adb push
 # Adb push will give output like:
 #     [  5%] /sideload/lineage-19.0-20220214_153219-UNOFFICIAL-gapps-RM6785.zip
 #     [ 10%] /sideload/lineage-19.0-20220214_153219-UNOFFICIAL-gapps-RM6785.zip
 # and we only want the percentage, so we have to extract it with sed
-sed -n 's/^\[\s*\([0-9]*\)\%\]/\1/p' "$tmpfile" |
-    while read -r percent; do
-        echo -ne "\r$percent% "
-        sleep .1
-    done
+#sed -n 's/^\[\s*\([0-9]*\)\%\]/\1/p' "$tmpfile" |
+#    while read -r percent; do
+#        echo -ne "\r$percent% "
+#        sleep .1
+#    done
 
 adb wait-for-recovery shell "twrp install /sideload/$FILE_BASE"
 adb wait-for-recovery shell "rm -f /sideload/$FILE_BASE"

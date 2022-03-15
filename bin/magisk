@@ -1,0 +1,234 @@
+#!/bin/fish
+set -g this_script (basename (status filename))
+set -g tmp_dir_name $HOME/$this_script.tmp
+
+alias sc="set_color"
+set -g cyan (sc cyan)
+set -g norm (sc normal)
+set -g red (sc red)
+
+function magisk.usage --on-event usage
+  echo (sc brmagenta)"USAGE:"(sc normal)
+  echo "  $this_script actions sub-action ..[more sub-actions]"
+  echo
+  echo (sc brmagenta)"AVAILABLE ACTIONS:"(sc normal)
+  echo "  module"
+  echo "  apk"
+  echo "  zip"
+  echo
+  echo (sc brmagenta)"AVAILABLE SUB-ACTIONS FOR MODULE:"(sc reset)
+  echo "  quick-create $cyan<post-fs/service/sepolicy/prop>$norm"
+  echo "  create$cyan [module-name]$norm"
+  echo "  install $cyan<file-path>$norm"
+  echo "  remove $cyan<module-ID>$norm"
+  echo "  list"
+  echo
+  echo (sc brmagenta)"AVAILABLE SUB-ACTION FOR APK:"(sc reset)
+  echo "  download$cyan [canary]$norm"
+  echo
+  echo (sc brmagenta)"AVAILABLE SUB-ACTION FOR ZIP:"(sc reset)
+  echo "  download$cyan [canary]$norm"
+end
+
+function magisk.action.module::prepare_tmp_dir
+  set -g tmp_dir_name "$HOME/"(shuf -i 10000-50000 -n1)"-magisk_tmpdir"
+  mkdir $tmp_dir_name
+  cd $tmp_dir_name
+end
+
+function magisk.action.module --on-event module
+  set -l sub_action $argv[1]
+  set -l sub_action_two $argv[2]
+  switch $sub_action
+    case 'quick-create'
+      if not set -q sub_action
+        echo (set_color brred)"Error, sub-action is not given"(set_color normal) >&2
+        return
+      end
+      magisk.action.module::prepare_tmp_dir
+      switch $sub_action_two
+        case 'post-fs'
+          nano post-fs-data.sh
+          magisk.action.module::zip_and_flash
+        case 'service'
+          nano service.sh
+          magisk.action.module::zip_and_flash
+        case 'sepolicy'
+          nano sepolicy.rule
+          magisk.action.module::zip_and_flash
+        case 'prop'
+          nano system.prop
+          magisk.action.module::zip_and_flash
+        case '*'
+          echo (brred)"Invalid option for quick-create" >&2
+          return
+        end
+    case 'create'
+      magisk.action.module::prepare_tmp_dir
+      echo (set_color brcyan)"You will be walked through all files."
+      echo "Opening nano in 3 seconds"(set_color normal)
+      sleep 3
+      set -l files module.prop post-fs-data.sh service.sh customize.sh sepolicy.rule system.prop
+      for file in $files
+        echo (set_color brblue)"  Opening: $file"(set_color normal)
+        nano $file
+      end
+      echo (set_color brcyan)"Using fish breakpoint. Add files as you wish and use `exit` to continue."
+      breakpoint
+      magisk.action.module::zip_and_flash
+    case 'install'
+      if not set -q sub_action_two
+        echo (set_color brred)"Error: File name not provided"(set_color normal) >&2
+        return
+      end
+      adb shell "su -c 'magisk --install-module $sub_action_two'"
+    case 'remove'
+      if not set -q sub_action_two
+        echo (set_color brred)"Error: Module ID not provided"(set_color normal) >&2
+        return
+      end
+      echo (set_color bryellow)"Warning: This will use `rm -rf` and not run the module uninstall script."(set_color normal)
+      adb shell "su -c 'rm -rf /data/adb/modules/$sub_action_two'"
+    case 'list'
+      set -l modules (adb shell "su -c 'ls /data/adb/modules'")
+      echo (brwhite)"Installed modules:"
+      for module in $modules
+        echo (yellow)"  $module"
+      end
+  end
+end
+
+if test (count $argv) -eq 0
+  echo (set_color brred)"No arguments provided"(set_color normal) >&2
+  emit usage
+  exit 1
+end
+
+# # Colours
+# bold=$(tput bold)
+# red=$(tput setaf 1)
+# green=$(tput setaf 2)
+# yellow=$(tput setaf 3)
+# blue=$(tput setaf 4)
+# purple=$(tput setaf 5)
+# cyan=$(tput setaf 6)
+# reset=$(tput sgr0)
+#
+# show_usage() {
+  # echo "\
+# ${cyan}Usage:$reset
+#   $thisScript actions sub-action ..[more sub-actions]
+#
+# ${cyan}Available actions:$reset
+#   module
+#
+# ${cyan}Available sub-actions for module:$reset
+#   quick-create <module type: sepolicy, prop>
+#   create"
+# }
+#
+# if [ "$#" -eq 0 ]; then
+#   echo "No arguements passed"
+#   show_usage
+#   exit 1
+# fi
+#
+# prepare_tmp_dir() {
+#   echo "Preparing"
+#   if [ -d "$tmpDirName" ]; then
+#   	rm -rf "$tmpDirName"
+#   fi
+#   mkdir "$tmpDirName"
+#   cd "$tmpDirName" || exit 1
+#   mkdir -p META-INF/com/google/android/
+#   curl -s https://raw.githubusercontent.com/topjohnwu/Magisk/master/scripts/module_installer.sh -o META-INF/com/google/android/update-binary
+#   printf '#MAGISK' > META-INF/com/google/android/updater-script
+#   mkdir system
+# }
+#
+# prepare_module_prop() {
+#   local type=$1
+#   cat > module.prop <<-EOF
+#   	id=generated_$type
+#   	name=PROP quick-create generated module
+#   	version=1
+#   	versionCode=v1
+#   	author=Auto generated Hakimi0804
+#   	description=Auto generated module
+#   EOF
+# }
+#
+# cleanup() {
+#   echo "Cleaning up"
+#   rm -rf "$tmpDirName"
+# }
+#
+# zip_and_flash() {
+#   echo "Zipping"
+#   zip -qqr "$thisScript.zip" .
+#   echo "Flashing"
+#   adb push "$thisScript.zip" /sdcard/
+#   adb shell "su -c 'magisk --install-module /sdcard/$thisScript.zip'"
+#   adb shell "su -c 'rm -f /sdcard/$thisScript.zip'"
+# }
+#
+# quick_create() {
+#   if [ "$#" -ne 1 ]; then
+#   	echo "Invalid number of arguments"
+#   	show_usage
+#   	exit 1
+#   fi
+#   case $1 in
+#   	sepolicy)
+#   		echo "Creating sepolicy module"
+#   		prepare_tmp_dir
+#   		prepare_module_prop sepolicy
+#   		cat > sepolicy.rule <<-EOF
+#   			# Please edit this file and save it.
+#   			# Use Magisk's sepolicy.rule format.
+#   		EOF
+#   		nano sepolicy.rule
+#   		zip_and_flash
+#   		cleanup
+#   		;;
+#   	prop)
+#   		echo "Creating prop module"
+#   		prepare_tmp_dir
+#   		prepare_module_prop prop
+#   		cat > system.prop <<-EOF
+#   			# Please edit this file and save it.
+#   			# Follow Android's build.prop format.
+#   			# For example:
+#   			# ro.build.type=user
+#   		EOF
+#   		nano system.prop
+#   		zip_and_flash
+#   		cleanup
+#   		;;
+#   	*)
+#   		echo "Invalid module type"
+#   		show_usage
+#   		exit 1
+#   		;;
+#   esac
+# }
+#
+# case $1 in
+#   module)
+#   	shift
+#   	case $1 in
+#   		quick-create)
+#   			shift
+#   			quick_create "$@"
+#   			;;
+#   		create)
+#   			shift
+#   			;;
+#   		*)
+#   			echo "Invalid sub-action"
+#   			show_usage
+#   			exit 1
+#   			;;
+#   	esac
+#   ;;
+# esac

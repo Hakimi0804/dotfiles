@@ -7,11 +7,12 @@ set -Ux GPG_TTY (tty)
 if status is-interactive
     # Starship prompt
     # source ("/usr/bin/starship" init fish --print-full-init | psub)
-    source ("/usr/local/bin/starship" init fish --print-full-init | psub)
+#    source ("/usr/local/bin/starship" init fish --print-full-init | psub)
     # Run neofetch on interactive shell startup
 #    if type -q neofetch
 #        neofetch
 #    end
+    true
 end
 
 # Replace ls with exa
@@ -23,7 +24,7 @@ alias l.="exa -a | egrep '^\.'"                                      # show only
 
 # Nuke reboot
 alias reboot='echo "never"'
-thefuck --alias | source
+#thefuck --alias | source
 
 # Misc aliases
 alias wget='aria2c'
@@ -40,3 +41,6 @@ source ~/.aliasrc
 alias cat='bat --style=changes,header,rule,numbers,snip'
 
 thefuck --alias | source
+test -d ~/.gdrive-downloader && begin; set PATH $HOME/.gdrive-downloader:$PATH; export PATH; end
+set PATH $HOME/.cargo/bin:/$HOME/bin:$HOME/.local/bin:$PATH
+export PATH

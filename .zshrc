@@ -1,9 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-#ifdef HAKIMI.EDIT@9-1-2022 00:25
 export ZSH_DISABLE_COMPFIX=true
-#endif HAKIMI.EDIT
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/hakimi/.oh-my-zsh"
@@ -75,12 +73,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-    git
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    sudo
-)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting sudo z)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -109,12 +102,12 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-export SSH_ASKPASS=/usr/bin/ksshaskpass
+#export SSH_ASKPASS=/usr/bin/ksshaskpass
 # export LD_LIBRARY_PATH="$HOME/github-repo/android_device_realme_RMX2001-pbrp/recovery/root/system/lib64:$HOME/github-repo/android_device_realme_RMX2001-pbrp/recovery/root/vendor/lib64"
 
 
 # recovery development
-export libcommon_path="$HOME/lib_common"
-export LD_LIBRARY_PATH="$HOME/secret/android_device_realme_RMX2001-pbrp/recovery/root/system/lib64:$HOME/secret/android_device_realme_RMX2001-pbrp/recovery/root/vendor/lib64"
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$libcommon_path/system/lib64:$libcommon_path/system/lib64/hw"
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$libcommon_path/vendor/lib64:$libcommon_path/vendor/lib64/hw"
+#export libcommon_path="$HOME/lib_common"
+#export LD_LIBRARY_PATH="$HOME/secret/android_device_realme_RMX2001-pbrp/recovery/root/system/lib64:$HOME/secret/android_device_realme_RMX2001-pbrp/recovery/root/vendor/lib64"
+#export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$libcommon_path/system/lib64:$libcommon_path/system/lib64/hw"
+#export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$libcommon_path/vendor/lib64:$libcommon_path/vendor/lib64/hw"

@@ -31,3 +31,4 @@ function compileclang() {
 
 }
 
+source ~/.aliasrc
