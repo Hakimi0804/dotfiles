@@ -1,4 +1,5 @@
 #!/bin/fish
+echo (set_color brblack)"Loading"(set_color normal)
 set -g this_script (basename (status filename))
 set -g tmp_dir_name $HOME/$this_script.tmp
 
@@ -168,8 +169,39 @@ function magisk.action.module --on-event 'module'
         echo (set_color yellow)"  $module"
       end
     case '*'
-      echo (set_color brred)"Missing arguments."(set_color normal)
+      echo (set_color brred)"Missing arguments."(set_color normal) >&2
       emit usage
+  end
+end
+
+function magisk.action.apk_zip::get_latest
+  set -g latest_magisk (
+    curl -s https://api.github.com/repos/topjohnwu/Magisk/releases/latest \
+      | grep "Magisk-v**.*.apk" \
+      | cut -d : -f 2,3 \
+      | tr -d \" \
+      | cut -d, -f2 \
+      | tr -d '\n' \
+      | tr -d ' '
+  )
+end
+
+function magisk.action.apk_zip --on-event 'apk_zip'
+  magisk.action.apk_zip::get_latest
+  rm -f (basename $latest_magisk)
+  echo (set_color brmagenta)"Downloading"(set_color normal)
+  if test "$argv[2]" = canary
+    aria2c -q 'https://raw.githubusercontent.com/topjohnwu/magisk-files/canary/app-debug.apk'
+  else
+    aria2c -q $latest_magisk
+  end
+
+  if test "$argv[1]" = apk
+    echo (set_color brgreen)"Downloaded APK."(set_color normal)
+  else if test "$argv[1]" = zip
+    echo (set_color brgreen)"Downloaded zip."(set_color normal)
+    set -l new_filename (string replace -r '.apk$' '.zip' (basename $latest_magisk))
+    mv (basename $latest_magisk) $new_filename
   end
 end
 
@@ -183,4 +215,10 @@ switch $argv[1]
   case 'module'
     set -e argv[1]
     emit module $argv
+  case 'zip'
+    emit apk_zip $argv
+  case 'apk'
+    emit apk_zip $argv
+  case '*'
+    echo (set_color brred)"Invalid action."(set_color normal)
 end
