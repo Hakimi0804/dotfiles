@@ -4,7 +4,7 @@ set fish_greeting
 # Set GPG_TTY for GnuPG signing
 set -Ux GPG_TTY (tty)
 
-if status is-interactive
+#if status is-interactive
     # Starship prompt
     # source ("/usr/bin/starship" init fish --print-full-init | psub)
 #    source ("/usr/local/bin/starship" init fish --print-full-init | psub)
@@ -12,8 +12,8 @@ if status is-interactive
 #    if type -q neofetch
 #        neofetch
 #    end
-    true
-end
+#    true
+#end
 
 # Replace ls with exa
 alias ls='exa -abl --color=always --group-directories-first --icons' # preferred listing
@@ -40,7 +40,9 @@ source ~/.aliasrc
 # Replace cat with bat
 alias cat='bat --style=changes,header,rule,numbers,snip'
 
-thefuck --alias | source
-test -d ~/.gdrive-downloader && begin; set PATH $HOME/.gdrive-downloader:$PATH; export PATH; end
-set PATH $HOME/.cargo/bin:/$HOME/bin:$HOME/.local/bin:$PATH
-export PATH
+#thefuck --alias | source
+#test -d ~/.gdrive-downloader && begin; set PATH $HOME/.gdrive-downloader:$PATH; export PATH; end
+#set -g PATH $HOME/.cargo/bin:/$HOME/bin:$HOME/.local/bin:$PATH
+#export PATH
+
+#source ~/.fish_extras

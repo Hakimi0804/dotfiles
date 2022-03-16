@@ -187,10 +187,15 @@ function magisk.action.apk_zip::get_latest
 end
 
 function magisk.action.apk_zip --on-event 'apk_zip'
+  if test "$argv[2]" != download
+    echo (set_color brred)"Missing/invalid sub-action. To download, please use `magisk apk/zip download`."(set_color normal)
+    return
+  end
+
   magisk.action.apk_zip::get_latest
   rm -f (basename $latest_magisk)
   echo (set_color brmagenta)"Downloading"(set_color normal)
-  if test "$argv[2]" = canary
+  if test "$argv[3]" = canary
     aria2c -q 'https://raw.githubusercontent.com/topjohnwu/magisk-files/canary/app-debug.apk'
   else
     aria2c -q $latest_magisk
