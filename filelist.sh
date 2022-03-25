@@ -5,6 +5,7 @@
 
 extra_files=(
     "$HOME/.aliasrc"
+    "$HOME/.fish_extras"
 )
 
 default=(

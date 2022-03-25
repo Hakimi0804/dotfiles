@@ -95,7 +95,7 @@ end
 
 function magisk.action.module::cleanup --on-event 'cleanup'
   cd ..
-  rm -rf tmp_dir_name
+  rm -rf $tmp_dir_name
 end
 
 function magisk.action.module --on-event 'module'
@@ -145,8 +145,8 @@ function magisk.action.module --on-event 'module'
         echo (set_color brblue)"  Opening: $file"(set_color normal)
         nano $file
       end
-      echo (set_color brcyan)"Using fish breakpoint. Add files as you wish and use `exit` to continue."
-      breakpoint
+      echo (set_color brcyan)"Add files as you wish and use `exit` to continue."
+      fish
       emit zip_flash
       emit cleanup
     case 'install'

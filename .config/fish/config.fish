@@ -45,4 +45,4 @@ alias cat='bat --style=changes,header,rule,numbers,snip'
 #set -g PATH $HOME/.cargo/bin:/$HOME/bin:$HOME/.local/bin:$PATH
 #export PATH
 
-#source ~/.fish_extras
+source ~/.fish_extras
