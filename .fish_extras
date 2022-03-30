@@ -1,5 +1,6 @@
 #!/bin/fish
 
+# Fuck GO
 #set -gx GOROOT /usr/local/go
 #set -gx PATH $PATH:$GOROOT/bin
 
@@ -8,12 +9,36 @@
 #set -gx GOPATH $GOPATH:$HOME/github-repo/golang
 
 if status is-interactive
+    # pk-command-not-found is super slow in some cases,
+    # so ask if we need it.
+    function fish_command_not_found
+        set -l prompt_stat
+
+        function __fish_command_not_found_ask -S
+            read -n1 -p "echo -n 'Call pk-command-not-found?[y/n]: '" prompt_stat
+        end
+
+        __fish_command_not_found_ask
+        if string match -qi 'y' $prompt_stat
+            /usr/libexec/pk-command-not-found $argv
+        else if string match -qi 'n' $prompt_stat
+            functions -e __fish_command_not_found_ask
+            return 127
+        else
+            fish_command_not_found $argv
+        end
+    end
+
+
     # Sudo convenience
     function systemctl --description='alias systemctl=sudo systemctl'
         sudo systemctl $argv;
     end
-    function dnf --description='alias dnf=dnf'
+    function dnf --description='alias dnf=sudo dnf'
         sudo dnf $argv;
+    end
+    function microdnf --description='alias microdnf=sudo microdnf'
+        sudo microdnf $argv;
     end
 
     # Package manager shorthand
