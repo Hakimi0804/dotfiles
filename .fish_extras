@@ -29,63 +29,6 @@ if status is-interactive
         end
     end
 
-
-    # Sudo convenience
-    function systemctl --description='alias systemctl=sudo systemctl'
-        sudo systemctl $argv;
-    end
-    function dnf --description='alias dnf=sudo dnf'
-        sudo dnf $argv;
-    end
-    function microdnf --description='alias microdnf=sudo microdnf'
-        sudo microdnf $argv;
-    end
-
-    # Package manager shorthand
-    function update --description='Update packages (dnf upgrade)'
-        dnf upgrade;
-    end
-    function update-refresh --description='Update packages (dnf upgrade --refresh)'
-        dnf upgrade --refresh;
-    end
-    function update-nometaref --description='Update packages without refreshing repo meta'
-        dnf upgrade -C;
-    end
-    function ins --description='Install packages (dnf install)'
-        dnf install $argv;
-    end
-    function ins-nometaref --description='Install packages without repo meta refresh'
-        dnf install -C $argv;
-    end
-    function ins-refresh --description='Install packages with --refresh'
-        dnf install --refresh $argv;
-    end
-    function remove --description='Uninstall packages'
-        dnf remove $argv;
-    end
-    function metacache --description='Create metadata cache (dnf makecache)'
-        dnf makecache;
-    end
-    function clean --description='Clean packages (dnf clean packages)'
-        dnf clean packages;
-    end
-    function clean-all --description='Clean all (dnf clean all)'
-        dnf clean all;
-    end
-    function search --description='Search packages'
-        dnf search $argv;
-    end
-    function searchq --description='Search packages using dnf repoquery'
-        dnf repoquery $argv;
-    end
-    function list --description='List installed packages'
-        dnf list --installed $argv;
-    end
-    function list-largest --description='List largest installed packages'
-        rpm -qa --queryformat '%10{size} - %-25{name} \t %{version}\n' | sort -rn | head -n $argv[1] 2> /dev/null
-        or rpm -qa --queryformat '%10{size} - %-25{name} \t %{version}\n' | sort -rn # In case $argv[1] wasn't integer
-    end
-
     set __all_dnf_shorts update update-refresh update-nometaref ins ins-nometaref ins-refresh metacache clean clean-all search searchq list list-largest
     echo (set_color brcyan)"DNF functions:"
     for __dnf_short in $__all_dnf_shorts

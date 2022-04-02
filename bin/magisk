@@ -154,7 +154,8 @@ function magisk.action.module --on-event 'module'
         echo (set_color brred)"Error: File name not provided"(set_color normal) >&2
         return
       end
-      adb shell "su -c 'magisk --install-module $sub_action_two'"
+      adb push $sub_action_two /data/local/tmp
+      adb shell "su -c 'magisk --install-module /data/local/tmp/$sub_action_two'"
     case 'remove'
       if not set -q sub_action_two
         echo (set_color brred)"Error: Module ID not provided"(set_color normal) >&2
