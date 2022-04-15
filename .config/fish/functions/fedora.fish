@@ -1,4 +1,4 @@
-function startfedora
+function fedora
     set -l sudo (which sudo)
     set -l su (which su)
     set -l chroot (which chroot)
@@ -6,15 +6,15 @@ function startfedora
     #set -l distro_path $pdistro_path/installed-rootfs/fedora
 
     # Sanity check
-    function startfedora::fail
+    function fedora::fail
         echo (set_color brred)$argv(set_color normal) >&2
     end
 
     set -q distro_path
-    or startfedora::fail "distro_path variable not set, exiting" && return 1
+    or fedora::fail "distro_path variable not set, exiting" && return 1
 
     test -d "$distro_path"
-    or startfedora::fail "distro_path is not a dir/unreadable" && return 1
+    or fedora::fail "distro_path is not a dir/unreadable" && return 1
 
     set -l partitions sys proc dev apex system vendor
 
