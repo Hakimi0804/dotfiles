@@ -1,3 +1,5 @@
+source ~/.fish_extras
+
 # Hide fish greeting
 set fish_greeting
 
@@ -44,5 +46,3 @@ alias cat='bat --style=changes,header,rule,numbers,snip'
 #test -d ~/.gdrive-downloader && begin; set PATH $HOME/.gdrive-downloader:$PATH; export PATH; end
 #set -g PATH $HOME/.cargo/bin:/$HOME/bin:$HOME/.local/bin:$PATH
 #export PATH
-
-source ~/.fish_extras
