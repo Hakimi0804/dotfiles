@@ -25,5 +25,5 @@ function dedup
         set -a deduped $arg
     end
 
-    echo $deduped
+    printf '%s\n' $deduped
 end
