@@ -22,9 +22,9 @@ if status is-interactive
             end
 
             __fish_command_not_found_ask
-            if string match -qi 'y' $prompt_stat
+            if string match -qi y $prompt_stat
                 /usr/libexec/pk-command-not-found $argv
-            else if string match -qi 'n' $prompt_stat
+            else if string match -qi n $prompt_stat
                 functions -e __fish_command_not_found_ask
                 return 127
             else
@@ -47,4 +47,77 @@ if status is-interactive
         and set -g fish_function_path $fish_function_path
         and set -ga fish_function_path $HOME/.config/fish/functions/dnf_functions
     end
+end
+
+
+##################
+# chroot env setup
+##################
+
+if not command -sq systemctl
+    function systemctl
+        return 0
+    end
+end
+
+if systemctl list-units 2>&1 | grep -i "running in chroot"
+    if status is-interactive
+        # Commands to run in interactive sessions can go here
+        set and_vars ANDROID_ART_ROOT ANDROID_DATA ANDROID_I18N_ROOT ANDROID_ROOT ANDROID_TZDATA_ROOT BOOTCLASSPATH DEX2OATBOOTCLASSPATH
+        for var in $and_vars
+            set -e $var
+        end
+
+        if contains /system/bin $PATH # Then our path is wrong
+            set -gx PATH /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin
+        end
+
+
+        # Configure command not found handler                                                                                                                  # Since we're in chroot container,
+        # /usr/libexec/pk-command-not-found
+        # won't work because it requires PackageKit
+        # to be running.
+        function fish_command_not_found
+            set -l brred (set_color brred)
+            set -l brwhite (set_color brwhite)
+            set -l brblack (set_color brblack)
+            set -l norm (set_color normal)
+
+            echo $brred"Command not found:$brwhite $argv[1]" >&2
+            echo $brblack"Calling `dnf provides $argv[1]`...$norm" >&2
+            set dnf_provides_filtered "$(dnf provides --color=always /usr/bin/$argv[1] /usr/sbin/$argv[1] 2>/dev/null)" # First filter out no matches found
+            echo $dnf_provides_filtered >&2
+
+            fish_command_not_found::extra $argv[1]
+            return 127
+        end
+
+        function fish_command_not_found::extra
+            # This function prints similar commands,
+            # e.g. clesr -> clear
+            set_color brblack
+            echo
+            echo "Searching for similar commands"
+            set_color normal
+
+            set -l alphanum 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
+            set list_indices (seq (string split '' $argv | count))
+            set split_cmd (string split '' $argv)
+            set -l matches for index in $list_indices
+            set tmp_split_cmd $split_cmd
+            for alnum in (string split '' $alphanum)
+                set tmp_split_cmd[$index] $alnum set joint (string join '' $tmp_split_cmd)
+                if command -sq $joint
+                    set -a matches $joint
+                end
+            end
+        end
+        test -n "$matches"
+        and printf "Similar command(s):\n" && printf "    %s\n" $matches
+    end
+
+    # Set locale; since we're in container the responsible
+    # systemd unit won't work to set locale for us
+    locale 2>/dev/null | string replace = ' ' | string replace -ar '^' 'set -gx ' | string replace -a en_US C | source
+    set -gx TZ Asia/Kuala_Lumpur
 end
