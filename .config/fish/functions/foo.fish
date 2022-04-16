@@ -1,3 +1,3 @@
 function foo
-echo "bar"
+    echo bar
 end

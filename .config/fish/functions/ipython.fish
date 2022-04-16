@@ -1,3 +1,3 @@
 function ipython
-python -m IPython
+    python -m IPython
 end

@@ -2,7 +2,7 @@ function fedora
     set -l sudo (which sudo)
     set -l su (which su)
     set -l chroot (which chroot)
-    set -l su_flags  --preserve-environment -c
+    set -l su_flags --preserve-environment -c
     #set -l distro_path $pdistro_path/installed-rootfs/fedora
 
     # Sanity check

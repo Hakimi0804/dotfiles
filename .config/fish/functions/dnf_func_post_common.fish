@@ -1,3 +1,3 @@
 function dnf_func_post_common
-# Nothing for now
+    # Nothing for now
 end
