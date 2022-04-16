@@ -19,7 +19,7 @@ if not test -e /usr/bin/systemctl
     end
 end
 
-test -e /bin/ls
+test -e /bin/rpm || test -e /bin/dpkg || test -e /bin/pacman
 and set -gx PREFIX ''
 
 if $PREFIX/bin/systemctl list-units 2>&1 | $PREFIX/bin/grep -i "running in chroot"
