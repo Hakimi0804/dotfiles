@@ -66,17 +66,38 @@ if $PREFIX/bin/systemctl list-units 2>&1 | $PREFIX/bin/grep -i "running in chroo
             set -l alphanum 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
             set list_indices (seq (string split '' $argv | count))
             set split_cmd (string split '' $argv)
-            set -l matches for index in $list_indices
-            set tmp_split_cmd $split_cmd
-            for alnum in (string split '' $alphanum)
-                set tmp_split_cmd[$index] $alnum set joint (string join '' $tmp_split_cmd)
-                if command -sq $joint
-                    set -a matches $joint
+            set -l matches
+            for index in $list_indices
+                debug "Processing index $index"
+
+                set tmp_split_cmd $split_cmd
+                for alnum in (string split '' $alphanum)
+                    set tmp_split_cmd[$index] $alnum
+                    set joint (string join '' $tmp_split_cmd)
+
+                    debug "Joint result: $joint"
+
+                    if command -sq $joint
+                        set -a matches $joint
+                    end
+                end
+            end
+
+            if test -n "$matches"
+                echo "Similar command(s):"
+                for match in $matches
+                    echo "    $match ($(command -s $match))"
                 end
             end
         end
-        test -n "$matches"
-        and printf "Similar command(s):\n" && printf "    %s\n" $matches
+
+        function debug
+            if set -q debug
+                set_color yellow
+                echo -- $argv
+                set_color normal
+            end
+        end
     end
 
     # Set locale; since we're in container the responsible
@@ -90,7 +111,7 @@ end
 ######################
 
 if status is-interactive
-and test "$is_chroot" = false
+    and test "$is_chroot" = false
     # pk-command-not-found is super slow in some cases,
     # so ask if we need it.
 
