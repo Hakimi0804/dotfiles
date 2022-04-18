@@ -59,3 +59,8 @@ for file in "${extra_files[@]}"; do
         fi
     fi
 done
+
+echo
+pr_green "Updating file hashes..."
+readonly find_opts=(-type f ! -path './.git/*' ! -wholename './sha256sum.txt')
+find "${find_opts[@]}" | xargs sha256sum | sort >sha256sum.txt

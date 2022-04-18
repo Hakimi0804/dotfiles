@@ -27,6 +27,14 @@ pr_yellow() {
     echo -e "${yellow}$1${reset}"
 }
 
+throw() {
+    echo -e "${red}$1${reset}"
+    exit 1
+}
+
+pr_green "Verifying file checksums..."
+sha256sum -c sha256sum.txt --quiet || throw "Verification failed!"
+
 pr_green "Installing dotfiles..."
 for file in "${default[@]}"; do
     pr_yellow " - Installing $file"
