@@ -40,7 +40,7 @@ alias reload='source ~/.config/fish/config.fish'
 source ~/.aliasrc
 
 # Replace cat with bat
-alias cat='bat --style=changes,header,rule,numbers,snip'
+alias cat='bat --style=changes,header,rule,numbers,snip --wrap=never'
 
 #thefuck --alias | source
 #test -d ~/.gdrive-downloader && begin; set PATH $HOME/.gdrive-downloader:$PATH; export PATH; end
