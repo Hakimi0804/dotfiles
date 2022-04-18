@@ -4,7 +4,7 @@ source ~/.fish_extras
 set fish_greeting
 
 # Set GPG_TTY for GnuPG signing
-set -Ux GPG_TTY (tty)
+set -gx GPG_TTY (tty)
 
 #if status is-interactive
     # Starship prompt
