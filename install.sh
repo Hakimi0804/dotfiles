@@ -3,14 +3,10 @@
 if [ ! -f filelist.sh ]; then
     rm -rf dotfiles
     git clone https://github.com/Hakimi0804/dotfiles.git || exit 1
-    readonly needexit=true # Do not export this variable
     cd dotfiles || exit 1
-    ./install.sh
+    exec ./install.sh
 else
     git pull
-fi
-if [[ $needexit == true ]]; then
-    exit
 fi
 
 # shellcheck source=filelist.sh
