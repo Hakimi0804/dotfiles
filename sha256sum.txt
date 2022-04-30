@@ -80,7 +80,6 @@ e229847fb6b5d74b68376844e26ee3f2fb34b7ea6144cce23371f4126e46bcd6  ./bin/template
 e257c7fcce40435070f6cac601e6d86211285f4807d73102facc698740b20bf3  ./bin/magiskboot
 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855  ./bin/termux-fix-shebang
 e3cc39c01326a6c188731cd0b358a9c017164ccef535f84d3458887b0c5ea303  ./bin/magisk_template_sha256sum.txt
-e6bf8cee64d81ebd471064133dd68582d014435b18e6747512ba59e6ff856bb2  ./.config/fish/functions/monitor.fish
 e6ffedf58bfb371f4aa1d2fd27e6ebfc8afe4af72d6a0f089baff3a7498bb136  ./.config/fish/functions/wget.fish
 ec4bd80fa8eabe2c54f0db22ea98dc6c4ffaf72cc9b83dd4f2e740702eb0010a  ./.config/fish/functions/dnf_functions/clean.fish
 f27523c04517e21d6578be5b610db4afe1223a37b7505eaddad4102d2baa48aa  ./.fish_extras
