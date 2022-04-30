@@ -23,7 +23,6 @@
 56f0aa878dd4c8283d33328998bd3e167cf67375e547a8ec6b48e1c07a09f06e  ./bin/verify
 5ba9efcbee38d3cb5b5cdacb1946ae516242e7d0887c903415f1f3d0b2f1c4e9  ./bin/msg-tst
 5e2e0eb441de5841f8f360fc491e5a390cc57fa043d8f1fe009f76d8636ca7da  ./.config/fish/functions/apt-fast.fish
-606d28267b07d660ecff6737b5ee3ad3d1967f8f19dd89a376dc54635cefa9ff  ./.config/fish/fish_variables
 615f19373e8faa976fb34516b847a3a2b469f18104a534149c813f5b0f28b5d4  ./.config/fish/functions/fedora.fish
 64f4b592f227c95cb8eec924100c0e9f9ece221671e552b098ecc5aba0214cd3  ./bin/avbtool
 65a3f8d4b0a7d4a71fdea1b56c67bd9062f686d464cbc668d43ae5640d4baf04  ./.config/fish/functions/dnf_functions/metacache.fish
