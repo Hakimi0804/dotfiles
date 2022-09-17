@@ -30,3 +30,5 @@ unset rc
 eval "$(starship init bash)"
 
 PATH="/home/hakimi/.google-drive-upload/bin:${PATH}"
+. "$HOME/.cargo/env"
+source ~/.local/share/blesh/ble.sh

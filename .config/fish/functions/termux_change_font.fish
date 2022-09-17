@@ -9,10 +9,7 @@ function termux_change_font
         mkdir -p $HOME/.termux
     end
 
-    if test (count $argv) -eq 0
-        echo "Expected one arg, got 0 instead" >&2
-        return 1
-    else if test (count $argv) -gt 1
+    if test (count $argv) -ne 1
         echo "Expected one arg, got $(count $argv) instead" >&2
         return 1
     end
@@ -33,4 +30,17 @@ function termux_change_font
     # Copy the font
     cp -f $argv $font_location
     echo "Copied $argv"
+
+    termux-reload-settings &
+    while contains -- $last_pid (jobs -p)
+        echo -n Applying changes \| \r
+        sleep .03
+        echo -n Applying changes / \r
+        sleep .03
+        echo -n Applying changes - \r
+        sleep .03
+        echo -n Applying changes \\ \r
+        sleep .03
+    end
+    echo Applying changes ✓
 end

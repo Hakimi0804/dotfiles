@@ -46,3 +46,29 @@ alias cat='bat --style=changes,header,rule,numbers,snip --wrap=never'
 #test -d ~/.gdrive-downloader && begin; set PATH $HOME/.gdrive-downloader:$PATH; export PATH; end
 #set -g PATH $HOME/.cargo/bin:/$HOME/bin:$HOME/.local/bin:$PATH
 #export PATH
+
+fish_add_path $HOME/bin
+direnv hook fish | source
+
+
+# Restore I-beam cursor
+function vim
+    command vim $argv
+    printf "\e[5 q"
+end
+function nvim
+    command nvim $argv
+    printf "\e[5 q"
+end
+
+
+# Use termux chroot
+#if not set -q TERMUX_CHROOT_DONE
+#    set -gx TERMUX_CHROOT_DONE
+#    termux-chroot
+#end
+
+# Bun
+set -Ux BUN_INSTALL "$HOME/.bun"
+set -px --path PATH "$HOME/.bun/bin"
+

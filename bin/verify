@@ -7,7 +7,7 @@ hashtype=$3
 if [ "$#" -ne 3 ]; then
   echo "empty filename, hash or md5."
   # shellcheck disable=SC2016
-  echo 'usage: `verify file.ext hash hashtype(md5, sha1, sha256, sha512)`'
+  echo "usage: \`$(basename $0) <file.ext> <hash> <hashtype(md5, sha1, sha256, sha512)>\`"
   exit 1
 fi
 
