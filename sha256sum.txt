@@ -46,7 +46,6 @@
 81c23922c7faa017ef32fb5a999d8d54681a7fbacf40a62c2f196398f02c0d0d  ./.config/fish/functions/bsn.fish
 8362d7e3d45a263a100a2e78934b3a62571a8b4da8e3a78415894832bd3d3962  ./.config/fish/functions/dedup.fish
 83bd64ff5f69020e8e66639fac57ad11e8195038b9075f8a2e5d85b102dbe278  ./.config/fish/functions/mem.fish
-84044e355d2a90fb8c5b9439742b041001729e8834f88791e5b503986248142f  ./.config/fish/fish_variables
 852ae47d959fcedf909367eef7c09700530c792d1651a732f8162ee5338642e7  ./.config/fish/functions/foo.fish
 8a03bd7e3549d3c6658ec3386464a982d3bf789c457ab7221be2ca0ea3cf9471  ./.config/fish/functions/shfmt.fish
 8ae031bc8acb0e76f65d00753fcb4b229f1407c84669da70abea671f62b2b6ef  ./bin/write
