@@ -48,7 +48,10 @@ alias cat='bat --style=changes,header,rule,numbers,snip --wrap=never'
 #export PATH
 
 fish_add_path $HOME/bin
-direnv hook fish | source
+
+if command -s direnv &>/dev/null
+    direnv hook fish | source
+end
 
 
 # Restore I-beam cursor

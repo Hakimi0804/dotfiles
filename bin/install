@@ -1,0 +1,27 @@
+#!/bin/bash
+
+function fixperm() {
+    chown $(whoami):$(whoami) "$@"
+}
+
+function download() {
+    local links=($(dnf download "$@" --resolve -q --urls))
+    echo "Downloading:"
+    printf ' %s\n' "${links[@]}"
+    aria2c -j8 -Z "${links[@]}"
+}
+
+function cleanup() {
+    rm -rf "/tmp/$RANDID"
+    exit $1
+}
+
+readonly RANDID=packages-$RANDOM
+
+mkdir "/tmp/$RANDID" || exit 1
+cd "/tmp/$RANDID" || exit 1
+download "$@" || cleanup 1
+sudo rpm -ihv * || cleanup 1
+
+cleanup 0
+
