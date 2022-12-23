@@ -1,1 +1,1 @@
-/home/hakimi/.local/share/omf/themes/simple-ass-prompt/fish_prompt.fish
+/data/data/com.termux/files/home/.local/share/omf/themes/simple-ass-prompt/fish_prompt.fish

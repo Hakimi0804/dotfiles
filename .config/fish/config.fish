@@ -72,3 +72,6 @@ end
 set -Ux BUN_INSTALL "$HOME/.bun"
 set -px --path PATH "$HOME/.bun/bin"
 
+#clear
+#bash $PREFIX/etc/motd.sh
+

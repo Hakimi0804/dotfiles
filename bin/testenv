@@ -1,0 +1,23 @@
+#!/bin/bash
+
+TESTENV_INIT=false
+TESTENV_CONFFILE=$HOME/.testenv.conf
+TESTENV_DIR=$HOME/.testenv
+
+function init {
+  if ! test -d "$TESTENV_DIR"; then
+    mkdir "$TESTENV_DIR" &&
+      echo "init: Created testenv main dir" ||
+      { echo "init: Failed to create main dir!"; return; }
+  fi
+  if ! test -f $HOME/.testenv.conf; then
+    touch "$TESTENV_CONFFILE" &&
+      echo "init: Created config file" ||
+      { echo "init: Failed to create config file!"; return; }
+  fi
+
+  TESTENV_INIT=true
+}
+
+init
+
