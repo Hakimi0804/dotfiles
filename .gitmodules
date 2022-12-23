@@ -1,3 +1,6 @@
 [submodule "github-repo/mybot/telegram-bot-bash"]
 	path = github-repo/mybot/telegram-bot-bash
 	url = https://github.com/Hakimi0804/telegram-bot-bash
+[submodule "dotfiles"]
+	path = dotfiles
+	url = https://github.com/pranaya2005/dotfiles
