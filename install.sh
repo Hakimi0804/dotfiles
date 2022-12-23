@@ -7,6 +7,8 @@ if [ ! -f filelist.sh ]; then
     exec ./install.sh
 else
     git pull
+    git submodule init
+    git submodule update
 fi
 
 # shellcheck source=filelist.sh
