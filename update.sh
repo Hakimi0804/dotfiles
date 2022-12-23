@@ -64,3 +64,10 @@ echo
 pr_green "Updating file hashes..."
 readonly find_opts=(-type f ! -path './.git/*' ! -wholename './sha256sum.txt')
 find "${find_opts[@]}" | xargs sha256sum | sort >sha256sum.txt
+
+IFS=$'\n'
+for file in $(cat .gitignore); do
+    echo "Delete hash for: $file"
+    sed -i "/${file//\//\\/}/d" sha256sum.txt
+done
+
