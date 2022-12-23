@@ -55,7 +55,6 @@
 912089c4e4ec89778ff5b4a81f5dbe1e70781259fc8247531cb16bade363c6e3  ./bin/time
 928895a627002301e6f97cd99987c7ecdc19c2b5b9f58a98098990748cab3473  ./.config/fish/functions/dnf_functions/update.fish
 93290340f8cbb6f5f891083b88a2f0ffe7ba35e6176c0a16b96b54e80beee784  ./bin/logcat
-93fb7f527b6a429bc0ba49025cbce39941bb2fad5f009f3e0d3b9d3c4bc2fa43  ./.config/fish/fish_variables
 944fcf8863ce9810cb3a8309a95be5b3ad8a45ac6f92e315179cbed1baf95a79  ./bin/restartbot
 949d5f4e1e20ff615a326ef6aef6beed400009ae0b5ae8708fac65e88887ae49  ./.config/fish/functions/dnf_functions/ins.fish
 97d41778eb974c92b277025b1a618ed403ca8e4d756961dbac37f5f407bf6678  ./.config/fish/functions/edit.fish
@@ -74,7 +73,6 @@ b787bfb000f843ee791cf1355d17022ca58c2ff41fe5e9b60e1f87c7e6d8dc72  ./.config/fish
 b901c624e035c0414ff1ebad7242ec022661d675d65cd060c27bc8b98ea9bf2a  ./.config/fish/functions/dnf_functions/dnf.fish
 bce20e7a78f5cb564043650eaf80f47ce306f45d073a6ea049a3920049e463e6  ./.config/fish/functions/fixdpkg.fish
 bcf4b1d9913f3af17755569c853e0b5a75b8005f6a18eb3f86dadcc0e968c29d  ./bin/template/META-INF/com/google/android/update-binary
-c2ca782ecfba499377309609f78d1179237237d2aa5308ebeb8cdedd68d96bd0  ./update.sh
 c53133e5b80d2b0a257ecd7046e74c369f67ffb9304dff95202a54151628074d  ./.config/fish/functions/venv.fish
 c707045f73be9a2122a08e11c7fad82cfafb02ffdaee16dea9b725b13f8018f3  ./.config/fish/config.fish
 c73dcf1fc7a72a6c5992293b48a8e37eed2e173cbc40946e80335dcee48290cf  ./bin/transfer
@@ -83,6 +81,7 @@ cfee01ea614c9e30c095bbfc9be6f1776bf59547bb614a700cc1451cdd06ffb1  ./bin/template
 d07226477e0fb8ad9bc4748df5238191170bfaee7a585a65e0b76f1872aedb23  ./.config/fish/completions/nala.fish
 d12005a2b19e7846e5a7bceb85b68b9d8fbb29ac1607b7aa3a5ec0c8f8fa8afe  ./.config/fish/functions/dnf_functions/ins-refresh.fish
 d27de47b32949e7a92314f1d1e5e98b28d1eb37e60c396c923459d4eb70dc518  ./bin/repo
+d60228195262646dd4b400e4aa45a6b83917dda7ff24317e21a0d059141cabf8  ./update.sh
 d647ff926f915d0044c818e52b71a67be9552c34e026e6e37331636d415fbc38  ./bin/common.sh
 d78174e20f109d583bf18e2a6fdddf8c2807bab7cb677c7a3ec2df8510783bbb  ./bin/extract
 d7d1e8556f55f68515a2dc76ddf21a6c3f1a54ea32834bff744ad491e532deea  ./bin/common.env
